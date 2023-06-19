@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://kitt.lewagon.com/
+HostUrl=https://wagon-public-datasets.s3.amazonaws.com/Machine%20Learning%20Datasets/NBA.csv
