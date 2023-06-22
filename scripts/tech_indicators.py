@@ -27,7 +27,7 @@ class Indicator:
         df = df.join(sma)
         return df
 
-    # Boiler bands
+    # Bolinger bands
     def _bbands(self,
                 df: pd.DataFrame,
                 price: str,
