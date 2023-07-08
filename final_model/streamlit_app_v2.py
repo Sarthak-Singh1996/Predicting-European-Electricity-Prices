@@ -22,7 +22,7 @@ st.set_page_config(layout="wide")
 st.title("Electricty Future Price Prediction App")
 start_button = st.button("Start")
 stop_button = st.button("Stop")
-st.markdown("Description of app")
+st.markdown("Description: This app gives the prediction of future closed price of electricity for Germany.")
 
 ### Change sidebar color
 
