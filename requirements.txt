@@ -18,4 +18,4 @@ db-dtypes
 pyarrow
 plotly
 tensorflow
-keras tensorflow
+keras
