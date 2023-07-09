@@ -17,5 +17,5 @@ google-cloud-storage
 db-dtypes
 pyarrow
 plotly
-tensorflow
-keras
+tensorflow==2.6.0
+keras==2.6.0
