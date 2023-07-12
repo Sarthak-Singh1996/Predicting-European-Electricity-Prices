@@ -189,7 +189,6 @@ def load_LSTM_model_func(model_url, model_filename, history_url=None, history_fi
         return model, history
     
     return model
-
 #fit
 def predict_model():
     # Target Scaling
