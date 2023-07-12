@@ -17,6 +17,7 @@ from keras import layers, regularizers
 from keras.callbacks import EarlyStopping
 from tensorflow.keras.models import save_model, load_model
 import pickle
+import requests
 import urllib.request
 
 st.set_page_config(layout="wide")
@@ -169,31 +170,48 @@ X_test, y_test = get_X_y(df,
 y_test = y_test[:, :, 0]
 
 
-def load_LSTM_model_func(model_url, model_filename, history_filename=None):
-    urllib.request.urlretrieve(model_url, model_filename)
+
+def load_LSTM_model_func(model_url, model_filename, history_url=None, history_filename=None):
+    response = requests.get(model_url)
+    with open(model_filename, "wb") as file:
+        file.write(response.content)
+    
     model = load_model(model_filename)
     
-    if history_filename is not None:
+    if history_filename is not None and history_url is not None:
+        response = requests.get(history_url)
+        with open(history_filename, "wb") as file:
+            file.write(response.content)
+        
         with open(history_filename, "rb") as file:
             history = pickle.load(file)
+        
         return model, history
     
     return model
 
 #fit
 def predict_model():
-    #target Scaling
-    # y normalize
+    # Target Scaling
     epsilon = 1e-8  # there are some 0 Values in the dataframe. Cannot work then
     y_scaler = MinMaxScaler()
     y_scaler.fit(np.log(y_train+ epsilon))
-    model_LSTM, history = load_LSTM_model_func("https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/trained_model.h5", "trained_model.h5", history_filename="training_history.pickle")
+    
+    model_url = "https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/trained_model.h5"
+    model_filename = "trained_model.h5"
+    
+    history_url = "https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/training_history.pickle"
+    history_filename = "training_history.pickle"
+    
+    model_LSTM, history = load_LSTM_model_func(model_url, model_filename, history_url, history_filename)
 
     y_pred = model_LSTM.predict(X_test)
 
     y_pred = y_scaler.inverse_transform(y_pred)
     y_pred = np.exp(y_pred)
     return y_pred, y_test, history
+
+
 
 
 def plot_history(history):
