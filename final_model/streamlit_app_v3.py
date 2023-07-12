@@ -217,8 +217,8 @@ def plot_history(history):
 
     fig, ax = plt.subplots(1,2, figsize=(20,7))
     # --- LOSS: LOSS ---
-    ax[0].plot(history.history['loss'])
-    ax[0].plot(history.history['val_loss'])
+    ax[0].plot(history['loss'])
+    ax[0].plot(history['val_loss'])
     ax[0].set_title('Loss')
     ax[0].set_ylabel('LOSS')
     ax[0].set_xlabel('EPOCH')
@@ -228,8 +228,8 @@ def plot_history(history):
 
     # --- METRICS: MAE ---
 
-    ax[1].plot(history.history['mae'])
-    ax[1].plot(history.history['val_mae'])
+    ax[1].plot(history['mae'])
+    ax[1].plot(history['val_mae'])
     ax[1].set_title('Mean Absolute Error')
     ax[1].set_ylabel('LOSS')
     ax[1].set_xlabel('EPOCH')
