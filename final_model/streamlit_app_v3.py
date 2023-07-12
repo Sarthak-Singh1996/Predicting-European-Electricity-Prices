@@ -46,8 +46,6 @@ st.sidebar.title("Predictor Settings")
 
 
 
-st.sidebar.subheader("Model Parameters Selection:")
-
 START_DATE = datetime(2003, 1, 1)
 END_DATE = datetime(2022, 12, 31)
 st.sidebar.subheader("Time Frame Selection:")
