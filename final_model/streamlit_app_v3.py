@@ -17,6 +17,8 @@ from keras import layers, regularizers
 from keras.callbacks import EarlyStopping
 from tensorflow.keras.models import save_model, load_model
 import pickle
+import urllib.request
+
 st.set_page_config(layout="wide")
 
 st.title("Electricty Future Price Prediction App")
@@ -167,7 +169,8 @@ X_test, y_test = get_X_y(df,
 y_test = y_test[:, :, 0]
 
 
-def load_LSTM_model_func(model_filename, history_filename=None):
+def load_LSTM_model_func(model_url, model_filename, history_filename=None):
+    urllib.request.urlretrieve(model_url, model_filename)
     model = load_model(model_filename)
     
     if history_filename is not None:
@@ -184,15 +187,13 @@ def predict_model():
     epsilon = 1e-8  # there are some 0 Values in the dataframe. Cannot work then
     y_scaler = MinMaxScaler()
     y_scaler.fit(np.log(y_train+ epsilon))
-    model_LSTM, history = load_LSTM_model_func("https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/trained_model.h5", history_filename="https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/training_history.pickle")
+    model_LSTM, history = load_LSTM_model_func("https://raw.githubusercontent.com/Tobias-Neubert94/adam_monk_II/master/adam_monk_II/data/trained_model.h5", "trained_model.h5", history_filename="training_history.pickle")
 
     y_pred = model_LSTM.predict(X_test)
 
     y_pred = y_scaler.inverse_transform(y_pred)
     y_pred = np.exp(y_pred)
     return y_pred, y_test, history
-
-
 
 
 def plot_history(history):
